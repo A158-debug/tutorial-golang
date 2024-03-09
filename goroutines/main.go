@@ -32,7 +32,7 @@ func main() {
 	fmt.Println("Goroutines in Go")
 
 	go greeter("Hello")
-	greeter("World")
+	go greeter("World")
 
 	website := []string{
 		"https://github.com/A158-debug",
@@ -49,5 +49,4 @@ func main() {
 	}
 
 	wg.Wait()
-
 }
