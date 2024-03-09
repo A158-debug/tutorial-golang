@@ -45,13 +45,26 @@ func getTodoById(context *gin.Context) {
 	context.IndentedJSON(http.StatusNotFound, errors.New("todo not found"))
 }
 
+func updateTodo(context *gin.Context) {
+	id := context.Param("id")
+	for idx, item := range Todo_List {
+		if item.ID == id {
+			Todo_List[idx].Completed = !Todo_List[idx].Completed
+			context.IndentedJSON(http.StatusOK, Todo_List[idx])
+			return
+		}
+	}
+	context.IndentedJSON(http.StatusNotFound, errors.New("error during update"))
+}
+
 func main() {
 	fmt.Println("Web serve in Go")
 	router := gin.Default()
 
 	router.GET("/", getTodos)
-	router.GET("/:id", getTodoById)
 	router.POST("/", addTodos)
+	router.GET("/:id", getTodoById)
+	router.PATCH("/:id", updateTodo)
 
 	router.Run("localhost:8080")
 }
